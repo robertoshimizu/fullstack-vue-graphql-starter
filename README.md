@@ -36,3 +36,4 @@ or use the Vue-CLI UI
 ```
 vue ui
 ```
+New project created using vue ui, using a manual preset including Babel, Vue Router and html history.
