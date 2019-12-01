@@ -37,3 +37,11 @@ or use the Vue-CLI UI
 vue ui
 ```
 New project created using vue ui, using a manual preset including Babel, Vue Router and html history.
+Take a look at the scripts at package.json. You can start client side, server side or both (using dev). Make sure the script for client side is correct. Check with the README.md in the client folder. There it says:
+```
+npm run serve
+```
+So, back to the package.json, the client side script should reflect it.
+
+About Vuetify
+In this project, Vuetify was added through the vue ui, add plugin, manual presets.
