@@ -4,6 +4,18 @@ import 'vuetify/dist/vuetify.min.css';
 
 Vue.use(Vuetify);
 
+// Note below that it was defined a theme.
+// You can generate it from Theme Generator on Vuetify or other resources such as Coolors.co
+
 export default new Vuetify({
+    theme:{
+        primary: "#3B125F",
+        secondary: "#8B5FBF",
+        accent: "#BF653F",
+        error: "#722530",
+        warning: "#A37513",
+        info: "#396893",
+        success: "#4caf50"
+    }
     
 });
