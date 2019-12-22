@@ -1,5 +1,16 @@
 <template>
   <v-container text-xs-center>
+    <!-- Spinner while page is loading -->
+    <v-layout row>
+      <v-dialog v-model="loading" persistent fullscreen>
+        <v-container fill-height>
+          <v-layout row justify-center align-center>
+            <v-progress-circular indeterminate :size="70" :width="7" color="secondary"></v-progress-circular>
+          </v-layout>
+        </v-container>
+      </v-dialog>
+    </v-layout>
+    <!-- Carousel -->
     <v-flex xs12>
       <v-carousel v-bind="{ 'cycle': true}" interval="3000">
         <v-carousel-item v-for="post in posts" :key="post._id" :src="post.imageUrl">
@@ -12,6 +23,8 @@
 
 <script>
 
+import { mapGetters } from 'vuex';
+
 export default {
   name: "home",
   created(){
@@ -19,9 +32,15 @@ export default {
   },
 
   computed:{
-    posts(){
-      return this.$store.getters.posts;
-    }
+    // posts(){
+    //   return this.$store.getters.posts;
+    // },
+    // loading(){
+    //   return this.$store.getters.loading;
+    // }
+
+    // Anothet way of executing above computed properties using mapGetters
+    ...mapGetters(['posts', 'loading'])
   },
 
   methods: {
