@@ -3,11 +3,28 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify';
-import '@babel/polyfill'
+import '@babel/polyfill';
+
+// Import Apollo plugin
+import ApolloClient from 'apollo-boost';
+import VueApollo from 'vue-apollo';
+
+// Install the plugin into Vue
+Vue.use(VueApollo);
+
+// Set up ApolloClient
+const defaultClient = new ApolloClient({
+  uri:'http://localhost:4000/graphql'
+});
+
+// Instantiate a new ApolloClient in a variable
+const apolloProvider = new VueApollo({defaultClient});
 
 Vue.config.productionTip = false
 
 new Vue({
+  // injects apollo client into Vue components
+  provide: apolloProvider.provide(),
   router,
   store,
   vuetify,
