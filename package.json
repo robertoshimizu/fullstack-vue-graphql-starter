@@ -18,7 +18,8 @@
     "graphql": "^0.13.2",
     "jsonwebtoken": "^8.3.0",
     "md5": "^2.2.1",
-    "mongoose": "^5.2.6"
+    "mongoose": "^5.8.2",
+    "serialize-javascript": "^2.1.2"
   },
   "devDependencies": {
     "concurrently": "^3.6.0",
