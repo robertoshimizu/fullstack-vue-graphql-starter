@@ -12,7 +12,7 @@
     </v-layout>
     <!-- Carousel -->
     <v-flex xs12>
-      <v-carousel v-bind="{ 'cycle': true}" interval="3000">
+      <v-carousel v-if="!loading" v-bind="{ 'cycle': true}" interval="3000">
         <v-carousel-item v-for="post in posts" :key="post._id" :src="post.imageUrl">
           <h1 id="carousel__title">{{ post.title }}</h1>
         </v-carousel-item>
