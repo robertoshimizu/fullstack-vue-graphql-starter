@@ -1,3 +1,6 @@
+// module to validate usersignin password with that stored in the database
+const bcrypt = require('bcrypt');
+
 module.exports = {
     Query: {
         getUsers: async (_, args, { User }) => {
@@ -29,6 +32,17 @@ module.exports = {
           createdBy: creatorId
         }).save();
         return newPost;
+      },
+      signinUser: async (_, { username, password }, { User }) => {
+        const user = await User.findOne({ username });
+        if (!user) {
+          throw new Error("User not found");
+        }
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if(!isValidPassword){
+          throw new Error('Invalid Password')
+        }
+        return user;
       },
       signupUser: async (_, { username, email, password }, { User }) => {
         const user = await User.findOne({ username });
