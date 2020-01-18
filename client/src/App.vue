@@ -5,7 +5,7 @@
       <v-app-bar color="brown" flat dark>
         <v-app-bar-nav-icon @click="toggleSideNav"></v-app-bar-nav-icon>
         <router-link to="/" tag="span" style="cursor:pointer">
-          <h1 class="title pl-3">Vue Share</h1>
+          <h1 class="title pl-3">Surfing</h1>
         </router-link>
       </v-app-bar>    
       <v-divider></v-divider>
@@ -20,7 +20,16 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        </v-list>
+
+        <!-- Signout Button -->
+        <v-list-item v-if="user">
+          <v-list-item-icon>
+            <v-icon>mdi-pencil</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Signout</v-list-item-title>
+        </v-list-item>
+
+      </v-list>
     </v-navigation-drawer>
 
     <!-- Horizontal Navbar -->
@@ -34,7 +43,7 @@
 
       <v-toolbar-title class="hidden-xs-only">
         <router-link to="/" tag="span" style="cursor:pointer">
-          <h1 class="title">Vue Share</h1>
+          <h1 class="title">Surfing</h1>
         </router-link>
       </v-toolbar-title>
 
@@ -52,6 +61,17 @@
           <v-icon class="hidden-sm-only" left>{{ item.icon }}</v-icon>
           {{ item.title}}
         </v-btn>
+        <!-- Profile Button -->
+        <v-btn text to="/profile" v-if="user">
+          <v-icon class="hidden-sm-only" left>mdi-pencil</v-icon>
+          Profile
+        </v-btn>
+
+        <!-- Signout Button -->
+        <v-btn text v-if="user">
+          <v-icon class="hidden-sm-only" left>mdi-pencil</v-icon>
+          Signout
+        </v-btn>
 
       </v-toolbar-items>
 
@@ -68,27 +88,42 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   name:'App',
   data(){
     return{
       sideNav:false,
-    }
+    };
   },
   computed:{
+    ...mapGetters(['user']),
     horizontalNavItems(){
-      return[
+      let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
         { icon: 'mdi-lock', title: 'Sign In', link: '/signin'},
         { icon: 'mdi-pencil', title: 'Sign Up', link: '/signup'}
-      ]
+      ];
+      if (this.user) {
+        items = [{ icon: 'mdi-chat', title: "Posts", link: "/posts" }];
+      }
+      return items;
     },
     sideNavItems(){
-      return[
+      let items = [
         { icon: 'mdi-chat', title: 'Posts', link: '/posts'},
         { icon: 'mdi-lock', title: 'Sign In', link: '/signin'},
         { icon: 'mdi-pencil', title: 'Sign Up', link: '/signup'}
-      ]
+      ];
+      if (this.user) {
+        items = [
+          { icon: 'mdi-chat', title: "Posts", link: "/posts" },
+          { icon: "mdi-chat", title: "Create Post", link: "/post/add" },
+          { icon: "mdi-account", title: "Profile", link: "/profile" }
+        ];
+      }
+      return items;
     }
   },
   methods:{

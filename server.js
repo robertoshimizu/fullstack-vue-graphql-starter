@@ -45,29 +45,25 @@ const Post = require("./models/Post");
 // Verify JWT Token passed from client, the one that was stored in local Storage
 const jwt = require('jsonwebtoken');
 
-const getUser = async token =>{
-  if(token){
-    try{
-      let user = jwt.verify(token, process.env.SECRET);
-      console.log(user);
-
-    } catch(err){
-      console.log(err);
-      throw new AuthenticationError("Your session has ended. Please sign in again.")
-
+const getUser = async token => {
+  if (token) {
+    try {
+      return await jwt.verify(token, process.env.SECRET);
+    } catch (err) {
+      throw new AuthenticationError(
+        "Your session has ended. Please sign in again."
+      );
     }
   }
 };
 
-
-// Now we create the ApolloServer
-
+// Create Apollo/GraphQL Server using typeDefs, resolvers, and context object
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({req})=>{
+  context: async ({ req }) => {
     const token = req.headers["authorization"];
-    return { User, Post, currentUser: getUser(token) };
+    return { User, Post, currentUser: await getUser(token) };
   }
 });
 

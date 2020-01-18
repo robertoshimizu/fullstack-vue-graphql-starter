@@ -13,6 +13,23 @@ query {
 `;
 
 /*  User Queries */
+export const GET_CURRENT_USER = gql`
+  query {
+    getCurrentUser {
+      _id
+      username
+      email
+      password
+      avatar
+      joinDate
+      favorites {
+        _id
+        title
+        imageUrl
+      }
+    }
+  }
+`;
 
 /*  Posts Mutations */
 

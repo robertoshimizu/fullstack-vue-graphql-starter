@@ -52,6 +52,7 @@ type Token {
 # You define your data graph's supported queries as fields of a special type called the Query type.
 
 type Query {
+  getCurrentUser: User
   getUsers: [User]
   getPosts: [Post]
 }
@@ -71,6 +72,5 @@ type Mutation {
   ): Post!
 
   signinUser(username: String!, password: String!): Token
-
   signupUser(username: String!, email: String!, password: String!): Token
 }
