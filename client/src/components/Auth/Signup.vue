@@ -1,11 +1,16 @@
 <template>
+
   <v-container>
-    <h1>Signup</h1>
+    <h1>Signupe</h1>
   </v-container>
+
 </template>
 
 <script>
 export default {
-    name:'Signup'
+    name:'Signup',
+    props: {
+      source: String,
+    },
 }
 </script>

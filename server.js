@@ -15,35 +15,66 @@ const mongoose = require("mongoose");
 mongoose
   .connect(
     process.env.MONGO_URI,
-    { useNewUrlParser: true }
+    { useUnifiedTopology:true,
+      useNewUrlParser: true }
   )
   .then(() => console.log("DB connected"))
   .catch(err => console.error(err));
 
+mongoose.set('useCreateIndex', true)  
+
+// With Apollo you can simplify app development by combining APIs, databases, and microservices
+// into a single data graph that you can query with GraphQL
 // create an ApolloServer object taking the typeDefs (schema) and resolvers (mutation) to
 // fetch GraphQL API to manipulate Users and Posts 
-const { ApolloServer } = require("apollo-server");
+const { ApolloServer, AuthenticationError } = require("apollo-server");
 const fs = require("fs");
 const path = require("path");
 const filePath = path.join(__dirname, "typeDefs.gql");
+
+// TypeDefs contains the GraphQL Schema
 const typeDefs = fs.readFileSync(filePath, "utf-8");
+
+// resolvers
 const resolvers = require("./resolvers");
+
+// MongoDB models -> also a schema
 const User = require("./models/User");
 const Post = require("./models/Post");
+
+// Verify JWT Token passed from client, the one that was stored in local Storage
+const jwt = require('jsonwebtoken');
+
+const getUser = async token =>{
+  if(token){
+    try{
+      let user = jwt.verify(token, process.env.SECRET);
+      console.log(user);
+
+    } catch(err){
+      console.log(err);
+      throw new AuthenticationError("Your session has ended. Please sign in again.")
+
+    }
+  }
+};
+
+
+// Now we create the ApolloServer
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: {
-    User,
-    Post
+  context: ({req})=>{
+    const token = req.headers["authorization"];
+    return { User, Post, currentUser: getUser(token) };
   }
 });
 
-// And finally spin a nodejs web server
+// And finally we spin the Server (nodejs)
 
 server.listen().then(({ url }) => {
   console.log(`Server listening on ${url}`);
 });
 
-// To start server: npm run
+// To start server: npm run server

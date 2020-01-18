@@ -1,3 +1,6 @@
+// We are defining the schema of the Post database in MongoDB
+// We are going to call it: PostSchema
+
 const mongoose= require("mongoose");
 
 const PostSchema = new mongoose.Schema({
@@ -46,5 +49,8 @@ const PostSchema = new mongoose.Schema({
         }
     }]
 });
+
+// Finally we will inject the Schema in the variable 'Post' that we will construct the context of the 
+// ApolloServer in server.js
 
 module.exports = mongoose.model('Post', PostSchema);

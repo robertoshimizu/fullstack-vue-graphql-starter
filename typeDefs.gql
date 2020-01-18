@@ -1,3 +1,15 @@
+# Normally the schema will go inside the gql function (between the backticks). 
+# The language we'll use to write the schema is GraphQL's schema definition language (SDL).
+# https://www.apollographql.com/docs/tutorial/schema/
+
+# Because the schema sits directly between your application clients and your underlying data services, 
+# front-end and back-end teams should collaborate on its structure. When you develop your own data graph, 
+# practice schema-first development and agree on a schema before you begin implementing your API.
+
+# Object types
+# Most of the definitions in a GraphQL schema are object types. 
+# Each object type you define should represent an object that an application client might need to interact with.
+
 type User {
   _id: ID
   username: String! @unique
@@ -27,10 +39,27 @@ type Message {
   messageUser: User!
 }
 
+# The Token type 
+# Instead of returning a User, after Signup or Signin, we want to return a token, so that
+# it can later authenticate it. So we create the Token object below and use it to be returned in the mutation
+type Token {
+  token: String!
+}
+
+# The Query type 
+# We've defined the objects that exist in our data graph, but clients don't yet have a way to fetch those objects.
+# To resolve that, our schema needs to define queries that clients can execute against the data graph.
+# You define your data graph's supported queries as fields of a special type called the Query type.
+
 type Query {
   getUsers: [User]
   getPosts: [Post]
 }
+
+# The Mutation type
+# Queries enable clients to fetch data, but not to modify data. 
+# To enable clients to modify data, our schema needs to define some mutations.
+# The Mutation type is a special type that's similar in structure to the Query type.
 
 type Mutation {
   addPost(
@@ -40,6 +69,8 @@ type Mutation {
     description: String!
     creatorId: ID!
   ): Post!
-  signinUser(username: String!, password: String!):User!
-  signupUser(username: String!, email: String!, password: String!): User!
+
+  signinUser(username: String!, password: String!): Token
+
+  signupUser(username: String!, email: String!, password: String!): Token
 }
