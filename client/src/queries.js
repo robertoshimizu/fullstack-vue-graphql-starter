@@ -1,15 +1,17 @@
 import { gql } from "apollo-boost";
 
+// This is where the Client defines a bespoke query
+
 /*  Posts Queries */
 
 export const GET_POSTS = gql`
-query {
-  getPosts {
-    _id
-    title
-    imageUrl
+  query {
+    getPosts {
+      _id
+      title
+      imageUrl
+    }
   }
-}
 `;
 
 /*  User Queries */
@@ -35,17 +37,17 @@ export const GET_CURRENT_USER = gql`
 
 /*  User Mutations */
 export const SIGNIN_USER = gql`
-mutation($username:String!, $password:String!){
-  signinUser(username:$username, password:$password){
-    token
+  mutation($username: String!, $password: String!) {
+    signinUser(username: $username, password: $password) {
+      token
+    }
   }
-}
 `;
 
 export const SIGNUP_USER = gql`
-mutation($username:String!, ,$email: String!, $password:String!){
-  signinUser(username:$username, email:$email, password:$password){
-    token
+  mutation($username: String!, $email: String!, $password: String!) {
+    signinUser(username: $username, email: $email, password: $password) {
+      token
+    }
   }
-}
 `;

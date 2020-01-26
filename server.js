@@ -1,10 +1,9 @@
 // dotenv is a zero-dependency module that loads environment variables from a .env file into process.env
 // The process.env property returns an object containing the user environment.
-// config will read your .env file, parse the contents, assign it to process.env, and return an Object 
+// config will read your .env file, parse the contents, assign it to process.env, and return an Object
 // with a parsed key containing the loaded content or an error key if it failed.
 // https://www.npmjs.com/package/dotenv
 // https://medium.com/chingu/an-introduction-to-environment-variables-and-how-to-use-them-f602f66d15fa
-
 
 require("dotenv").config({ path: "variables.env" });
 
@@ -13,20 +12,19 @@ require("dotenv").config({ path: "variables.env" });
 const mongoose = require("mongoose");
 
 mongoose
-  .connect(
-    process.env.MONGO_URI,
-    { useUnifiedTopology:true,
-      useNewUrlParser: true }
-  )
+  .connect(process.env.MONGO_URI, {
+    useUnifiedTopology: true,
+    useNewUrlParser: true
+  })
   .then(() => console.log("DB connected"))
   .catch(err => console.error(err));
 
-mongoose.set('useCreateIndex', true)  
+mongoose.set("useCreateIndex", true);
 
 // With Apollo you can simplify app development by combining APIs, databases, and microservices
 // into a single data graph that you can query with GraphQL
 // create an ApolloServer object taking the typeDefs (schema) and resolvers (mutation) to
-// fetch GraphQL API to manipulate Users and Posts 
+// fetch GraphQL API to manipulate Users and Posts
 const { ApolloServer, AuthenticationError } = require("apollo-server");
 const fs = require("fs");
 const path = require("path");
@@ -43,7 +41,7 @@ const User = require("./models/User");
 const Post = require("./models/Post");
 
 // Verify JWT Token passed from client, the one that was stored in local Storage
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const getUser = async token => {
   if (token) {
@@ -57,7 +55,11 @@ const getUser = async token => {
   }
 };
 
-// Create Apollo/GraphQL Server using typeDefs, resolvers, and context object
+// And finally, create Apollo/GraphQL Server Object using typeDefs, resolvers, and context object.
+// When we create the ApolloServer, we pass the schemas as typeDefs, the resolvers as resolvers,
+// and the context, will be an async function that will resolve the previous function we created.
+// Either a user or null, the context will have the mongo models we created, so we can operate with
+// the database in the resolvers.
 const server = new ApolloServer({
   typeDefs,
   resolvers,
