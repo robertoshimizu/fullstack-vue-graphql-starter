@@ -30,7 +30,7 @@ const routes = [
     path: '/profile',
     name: 'Profile',
     component: Profile,
-    beforeEnter: AuthGuard
+    // beforeEnter: AuthGuard
   },
   {
     path: '/signin',

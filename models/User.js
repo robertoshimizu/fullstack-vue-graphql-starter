@@ -46,14 +46,19 @@ const UserSchema = new mongoose.Schema({
 // Images and profiles are both accessed via the hash of an email, and it is considered the primary way of identifying an identity within the system.
 // In our case we will use the hash of the username instead of the email.
 
-UserSchema.pre("save", function(next) {
+UserSchema.pre("save", function (next) {
   this.avatar = `http://gravatar.com/avatar/${md5(this.username)}?d=identicon`;
-  next();
+  next(); // This is from Express, to pass control to the next function
 });
 
 // Hash password so it cannot be seen when access database. We use bcrypt module required above
 // Observe the series of callback functions
-UserSchema.pre("save", function(next) {
+
+// Schema.pre('save', function ()=>{}) is a mongoose middleware
+// https://mongoosejs.com/docs/middleware.html#order
+
+
+UserSchema.pre("save", function (next) {
   if (!this.isModified("password")) {
     return next();
   }
